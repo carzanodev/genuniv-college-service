@@ -5,15 +5,15 @@ spring:
     name: college-service
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/genuniv_college
+    url: jdbc:postgresql://genuniv-db:5432/genuniv_college
     username: postgres
     password: password
     maximum-pool-size: 50
     driver-class-name: org.postgresql.Driver
-#  jpa:
-#    show-sql: true
-#  flyway:
-#    clean-on-validation-error: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka
 intra:
   service:
     GeneralInfo:

@@ -1,4 +1,4 @@
-package carzanodev.genuniv.microservices.college.api.clasroom;
+package carzanodev.genuniv.microservices.college.api.classroom;
 
 import javax.validation.Valid;
 

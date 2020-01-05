@@ -33,6 +33,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>genuniv-college-service</finalName>
     </build>
 
 </project>
