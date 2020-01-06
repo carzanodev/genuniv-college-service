@@ -1,4 +1,4 @@
-package carzanodev.genuniv.microservices.college.persistence.util;
+package carzanodev.genuniv.microservices.college.api.course;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,59 +12,72 @@ import org.springframework.util.StringUtils;
 
 import carzanodev.genuniv.microservices.college.persistence.entity.Course;
 
-public enum CourseSpecs {
+enum CourseSpecs {
 
     EQUAL_CODE_PREDICATE() {
         @Override
-        public Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            return cb.equal(root.get("code"), s);
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            return cb.equal(root.get("code"), String.valueOf(o));
         }
     },
 
     EQUAL_UNIT_PREDICATE() {
         @Override
-        public Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            return cb.equal(root.get("unit"), s);
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            return cb.equal(root.get("unit"), String.valueOf(o));
         }
     },
 
     EQUAL_LECTUREHOURS_PREDICATE() {
         @Override
-        public Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            return cb.equal(root.get("lecture_hours"), s);
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            return cb.equal(root.get("lectureHours"), String.valueOf(o));
         }
     },
 
     EQUAL_LABHOURS_PREDICATE() {
         @Override
-        public Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            return cb.equal(root.get("lab_hours"), s);
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            return cb.equal(root.get("labHours"), String.valueOf(o));
         }
     },
 
     EQUAL_COLLEGE_PREDICATE() {
         @Override
-        public Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            return cb.equal(root.get("college_id"), s);
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            return cb.equal(root.get("college"), o);
         }
     },
 
     CONTAIN_NAME_PREDICATE() {
         @Override
-        public Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            return cb.like(root.get("name"), s);
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            return cb.like(root.get("name"), String.valueOf(o));
         }
     },
 
     CONTAIN_DESCRIPTION_PREDICATE() {
         @Override
-        public Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-            return cb.like(root.get("description"), s);
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            return cb.like(root.get("description"), String.valueOf(o));
+        }
+    },
+
+    IS_ACTIVE_PREDICATE() {
+        @Override
+        public Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            if (o == Boolean.TRUE) {
+                return cb.isTrue(root.get("isActive"));
+            } else if (o == Boolean.FALSE) {
+                return cb.isFalse(root.get("isActive"));
+            }
+
+            return null;
         }
     };
 
     public static Specification<Course> createEmptySpecification() {
-        return createFullSpecification("", "", "", "", "", "", "");
+        return createFullSpecification("", "", "", "", "", "", "", null);
     }
 
     public static Specification<Course> createFullSpecification(
@@ -74,7 +87,8 @@ public enum CourseSpecs {
             String equalLabHours,
             String equalCollegeId,
             String containName,
-            String containDescription) {
+            String containDescription,
+            Boolean isActiveOnly) {
         return (Specification<Course>) (root, query, cb) -> {
             Set<Predicate> predicateSet = new HashSet<>();
 
@@ -95,7 +109,7 @@ public enum CourseSpecs {
             }
 
             if (!StringUtils.isEmpty(equalCollegeId)) {
-                predicateSet.add(EQUAL_COLLEGE_PREDICATE.predicate(equalCollegeId, root, query, cb));
+                predicateSet.add(EQUAL_COLLEGE_PREDICATE.predicate(Integer.valueOf(equalCollegeId), root, query, cb));
             }
 
             if (!StringUtils.isEmpty(containName)) {
@@ -110,6 +124,11 @@ public enum CourseSpecs {
                 predicateSet.add(CONTAIN_DESCRIPTION_PREDICATE.predicate(surroundWithWildcard(containDescription), root, query, cb));
             }
 
+            Predicate isActivePredicate = IS_ACTIVE_PREDICATE.predicate(isActiveOnly, root, query, cb);
+            if (isActivePredicate != null) {
+                predicateSet.add(isActivePredicate);
+            }
+
             return cb.and(predicateSet.toArray(Predicate[]::new));
         };
     }
@@ -118,6 +137,6 @@ public enum CourseSpecs {
         return "%" + s + "%";
     }
 
-    public abstract Predicate predicate(String s, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb);
+    public abstract Predicate predicate(Object o, Root<Course> root, CriteriaQuery<?> query, CriteriaBuilder cb);
 
 }

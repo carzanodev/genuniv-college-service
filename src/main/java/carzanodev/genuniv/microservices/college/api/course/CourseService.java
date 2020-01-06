@@ -44,8 +44,8 @@ class CourseService extends InformationService {
         return courseRepo;
     }
 
-    StandardResponse<CourseDTO.List> getAllCourseBySpecification(Specification<Course> courseSpec, boolean isActiveOnly) {
-        List<CourseDTO> courseDtos = (isActiveOnly ? courseRepo.findAllActive(courseSpec) : courseRepo.findAll(courseSpec))
+    StandardResponse<CourseDTO.List> getAllCourseBySpecification(Specification<Course> courseSpec) {
+        List<CourseDTO> courseDtos = courseRepo.findAll(courseSpec)
                 .stream()
                 .map(this::entityToDto)
                 .collect(Collectors.toList());

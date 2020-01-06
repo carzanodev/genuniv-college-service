@@ -14,7 +14,7 @@ VALUES ('BSEcon', 'Bachelor of Science in Economics', 1, 1),
 INSERT INTO course (code, name, description, unit, lecture_hours, lab_hours, college_id)
 VALUES ('ENG101', 'Basic English', 'Intro to English', 3, 3, 0, 1),
        ('BUS101', 'Basic Business', 'Intro to Business', 3, 3, 0, 2),
-       ('ENG101', 'General Engineering', 'Intro to Engineering', 3, 3, 0, 3);
+       ('ENGG101', 'General Engineering', 'Intro to Engineering', 3, 3, 0, 3);
 
 INSERT INTO classroom (name)
 VALUES ('R100'),

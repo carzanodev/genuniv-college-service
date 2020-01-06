@@ -135,7 +135,9 @@ class DegreeService extends InformationService {
 
         String code = degreeDto.getCode();
         if (!StringUtils.isEmpty(code)) {
-            degree.setName(code);
+            degree.setCode(code);
+        } else {
+            throw new NonEmptyException("code");
         }
 
         String name = degreeDto.getName();

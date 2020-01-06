@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import carzanodev.genuniv.microservices.college.persistence.entity.Course;
-import carzanodev.genuniv.microservices.college.persistence.util.CourseSpecs;
 import carzanodev.genuniv.microservices.common.config.CommonExceptionHandler.InvalidReferenceValueException;
 import carzanodev.genuniv.microservices.common.config.CommonExceptionHandler.InvalidTargetEntityException;
 import carzanodev.genuniv.microservices.common.config.CommonExceptionHandler.NonEmptyException;
@@ -44,8 +43,8 @@ class CourseController {
                                                @RequestParam(name = "collegeid", defaultValue = "") String collegeId,
                                                @RequestParam(name = "contain_name", defaultValue = "") String containName,
                                                @RequestParam(name = "contain_description", defaultValue = "") String containDescription) {
-        Specification<Course> spec = CourseSpecs.createFullSpecification(code, unit, lectureHours, labHours, collegeId, containName, containDescription);
-        return courseService.getAllCourseBySpecification(spec, true);
+        Specification<Course> spec = CourseSpecs.createFullSpecification(code, unit, lectureHours, labHours, collegeId, containName, containDescription, true);
+        return courseService.getAllCourseBySpecification(spec);
     }
 
     @GetMapping(path = "{id}")
