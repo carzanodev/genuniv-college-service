@@ -25,7 +25,7 @@ Course has a way for filtering its data, a very convenient feature for the front
 2. `unit`
 3. `lecturehours`
 4. `labhours`
-5 `collegeid`
+5. `collegeid`
 6. `contains_name`
 7. `contains_description`
 
@@ -54,3 +54,14 @@ curl http://localhost:18000/api/v1/course?contain_name=Basic&contain_description
     }
 }
 ```
+
+# 3. Data Dependencies
+The college service requests data from the following services via its APIs:
+1. [general-info-service](https://github.com/carzanodev/genuniv-general-info-service)
+    * School Year
+    * School Period
+    * Schedule
+2. [personal-records-service](https://github.com/carzanodev/genuniv-personal-records-service)
+    * Faculty
+    
+The retrieval of the data are done via a dedicated thread that periodically requests from the APIs. The data are also being cached afterwards.

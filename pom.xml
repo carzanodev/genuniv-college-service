@@ -10,7 +10,7 @@
     </parent>
     <groupId>carzanodev.genuniv.microservices</groupId>
     <artifactId>genuniv-college-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.1.0</version>
     <name>genuniv-college-service</name>
     <description>Generic University - College Service</description>
 
