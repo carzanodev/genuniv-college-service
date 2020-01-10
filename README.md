@@ -1,5 +1,5 @@
 # 1. Overview
-The college service is responsible for the domain of that of the colleges in the university, such as the College of Commerce and College of Engineering. The following are the data of which the college is responsible for:
+The college service is responsible for the data of the colleges in the university. These are the following:
 1. College - information about the college itself
 2. Degree - qualification chosen by and awarded to students for completing units from courses
 3. Degree type - the type of degree to be completed, e.g. Bachelor's and Master's 
@@ -9,9 +9,10 @@ The college service is responsible for the domain of that of the colleges in the
 
 This service uses [genuniv-common-service](https://github.com/carzanodev/genuniv-common-service) as its chassis.
 
+# 2. Relations Diagram
 ![college](./.assets/genuniv-college-service.png)
 
-# 2. Access Endpoints
+# 3. Access Endpoints
 1. `/api/v1/college`
 2. `/api/v1/degree`
 3. `/api/v1/degree-type`
@@ -19,15 +20,15 @@ This service uses [genuniv-common-service](https://github.com/carzanodev/genuniv
 5. `/api/v1/classroom`
 6. `/api/v1/offering`
 
-# 2.1. Course Specification
+## 3.1. Course Specification
 Course has a way for filtering its data, a very convenient feature for the frontend. This filtering makes use of `JpaSpecificationExecutor`. The following can be used in the params to filter course data:
 1. `code`
 2. `unit`
 3. `lecturehours`
 4. `labhours`
 5. `collegeid`
-6. `contains_name`
-7. `contains_description`
+6. `contain_name`
+7. `contain_description`
 
 Example Usage:
 ```json
@@ -55,7 +56,9 @@ curl http://localhost:18000/api/v1/course?contain_name=Basic&contain_description
 }
 ```
 
-# 3. Data Dependencies
+Filters such as the `contain_name` and `contain_description` makes use of the `like` filter, as opposed to the others which uses the `equal` filter.
+
+# 4. Data Dependencies
 The college service requests data from the following services via its APIs:
 1. [general-info-service](https://github.com/carzanodev/genuniv-general-info-service)
     * School Year
