@@ -5,7 +5,7 @@ spring:
     name: college-service
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://genuniv-db:5432/genuniv_college
+    url: jdbc:postgresql://postgres-db:5432/genuniv_college
     username: postgres
     password: password
     maximum-pool-size: 50
